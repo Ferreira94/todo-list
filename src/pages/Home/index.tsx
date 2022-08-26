@@ -1,105 +1,73 @@
-import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
+import { useState, useEffect } from "react";
 import { ClipboardText, PlusCircle } from "phosphor-react";
 
+import { Task } from "../../components";
+import { useTodo } from "../../hooks/useTodo";
+
 import {
+  FormContainer,
   CountTaskContainer,
   HomeContainer,
   TasksContainer,
   EmptyContainer,
 } from "./style";
-import { Task } from "../../components";
-
-interface ITaskProps {
-  id: number;
-  text: string;
-  isComplete: boolean;
-}
 
 export function Home() {
-  const [tasks, setTasks] = useState<ITaskProps[]>([]);
   const [newTaskText, setNewTaskText] = useState("");
-  const [countTasks, setCountTasks] = useState(0);
-  const [countComplete, setCountComplete] = useState(0);
+  const { addNewTask, tasks, tasksCompleteCount } = useTodo();
 
-  function handleCreateNewTask(event: FormEvent) {
-    event.preventDefault();
-
-    const newTask = {
+  function handleCreateNewTask() {
+    const task = {
       id: Math.random(),
       text: newTaskText,
       isComplete: false,
     };
 
-    setTasks((oldState) => [...oldState, newTask]);
-    setCountTasks(countTasks + 1);
+    addNewTask(task);
     setNewTaskText("");
   }
 
-  function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
-    event.target.setCustomValidity("");
-    setNewTaskText(event.target.value);
-  }
-
-  function handleNewTaskInvalid(event: InvalidEvent<HTMLInputElement>) {
-    event.target.setCustomValidity("Esse campo é obrigatório!");
-  }
-
-  function deleteTask(id: number) {
-    const commentsWithoutDeleteOne = tasks.filter((item) => {
-      return item.id !== id;
-    });
-
-    setTasks(commentsWithoutDeleteOne);
-    setCountTasks(countTasks - 1);
-  }
-
-  function completeTask(id: number) {
-    const statusTasks = tasks.map((item) =>
-      item.id === id ? { ...item, isComplete: !item.isComplete } : item
-    );
-
-    setTasks(statusTasks);
-    setCountComplete(countComplete + 1);
-  }
+  useEffect(() => {
+    console.log(tasks, tasksCompleteCount);
+  }, []);
 
   return (
     <HomeContainer>
-      <form onSubmit={handleCreateNewTask}>
+      <FormContainer>
         <input
           placeholder="Adicione uma nova tarefa"
           value={newTaskText}
-          onChange={handleNewTaskChange}
-          onInvalid={handleNewTaskInvalid}
+          onChange={(event) => setNewTaskText(event.target.value)}
           maxLength={120}
         />
-        <button disabled={!newTaskText}>
+        <button disabled={!newTaskText} onClick={handleCreateNewTask}>
           <div>
             Criar
             <PlusCircle size={18} />
           </div>
         </button>
-      </form>
+      </FormContainer>
 
       <main>
         <CountTaskContainer>
           <div>
             <p>Tarefas criadas</p>
-            <span>{countTasks}</span>
+            <span>{tasks.length}</span>
           </div>
           <div>
             <p>Concluídas</p>
-            {countComplete == 0 ? (
-              <span>{countComplete}</span>
+            {tasksCompleteCount == 0 ? (
+              <span>{tasksCompleteCount}</span>
             ) : (
               <span>
-                {countComplete} de {countTasks}
+                {tasksCompleteCount} de {tasks.length}
               </span>
             )}
           </div>
         </CountTaskContainer>
 
         <TasksContainer>
-          {!countTasks ? (
+          {tasks.length < 0 ? (
             <EmptyContainer>
               <ClipboardText />
               <p>Você ainda não tem tarefas cadastradas</p>
@@ -110,12 +78,10 @@ export function Home() {
               {tasks.map((item) => {
                 return (
                   <Task
+                    key={item.id}
                     id={item.id}
                     text={item.text}
                     isComplete={item.isComplete}
-                    key={item.id}
-                    onDeleteTask={deleteTask}
-                    onCompleteTask={completeTask}
                   />
                 );
               })}
