@@ -19,6 +19,7 @@ export const HomeContainer = styled.main`
 
     input {
       flex: 1;
+      max-width: 100%;
       height: 3.375rem;
       padding: 0 1rem;
       border-radius: 8px;
@@ -99,6 +100,7 @@ export const CountTaskContainer = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.12rem;
 
   div {
     display: flex;
