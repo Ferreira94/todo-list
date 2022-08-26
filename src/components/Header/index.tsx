@@ -1,7 +1,9 @@
+import { HeaderContainer } from "./style";
+
 export function Header() {
   return (
-    <div>
-      <h1>Header</h1>
-    </div>
+    <HeaderContainer>
+      <img src="/assets/logo.svg" alt="" />
+    </HeaderContainer>
   );
 }

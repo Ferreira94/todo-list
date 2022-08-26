@@ -8,12 +8,13 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   :focus {
-    outline: 0;
+    outline: transparent;
+    box-shadow: 0 0 0 2px var(--blue-300);
   }
 
   body {
-    background-color: ${(props) => props.theme.background};
-    color: ${(props) => props.theme["gray-800"]};
+    background-color: ${(props) => props.theme["gray-600"]};
+    color: ${(props) => props.theme["gray-100"]};
     -webkit-font-smoothing: antialiased;
   }
 
