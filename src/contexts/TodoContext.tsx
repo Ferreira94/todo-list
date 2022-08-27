@@ -78,7 +78,7 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     setTasks(newTodo);
   }
 
-  //Função responsável por excluir uma tarefa, ela recebe como parâmetro o id da tarefa que será excluída, a função verificará se a tarefa existe e após irá excluir.
+  //Função responsável por excluir uma tarefa, ela recebe como parâmetro o id da tarefa que será excluída, a função verificará se a tarefa existe e após irá excluir
   function removeTask(taskId: number) {
     const newTodo = produce(tasks, (draft) => {
       const taskExistsInTodo = tasks.findIndex((item) => item.id === taskId);
@@ -95,7 +95,7 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     setTasks(newTodo);
   }
 
-  //Função responsável por zerar o todo, todas as informações serão zeradas.
+  //Função responsável por zerar o todo, todas as informações serão zeradas, inclusive do localStorage
   function cleanTodo() {
     setTasksCompleteCount(0);
     setTasks([]);
