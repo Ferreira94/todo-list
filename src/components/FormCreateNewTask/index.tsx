@@ -9,6 +9,7 @@ export function FormCreateNewTask() {
   const [newTaskText, setNewTaskText] = useState("");
   const { addNewTask } = useTodo();
 
+  // Função responsável por criar a estrutura de uma nova tarefa e chamar a função addNewTask que é responsável por criar a tarefa,  que receberá a estrutura que foi criada, após esse processo ela zera o valor do input responsável pela descrição da nova tarefa.
   function handleCreateNewTask() {
     const task = {
       id: Math.random(),

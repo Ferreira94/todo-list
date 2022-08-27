@@ -11,6 +11,7 @@ export function ListTasksContainer({ isActiveSelect }: IIsActiveSelectProps) {
   const [selectTasks, setSelectTasks] = useState<ITaskProps[]>([]);
   const { addNewTask, tasks, tasksCompleteCount, cleanTodo } = useTodo();
 
+  //Função responsável por atualizar quais tarefas devem ser renderizadas(todas/pendentes/concluídas), função será executada novamente sempre que o usuário adicionar uma nova tarefa, completar uma tarefa ou alterar quais tarefas que devem ser renderizadas.
   useEffect(() => {
     if (isActiveSelect === "pending") {
       const filteredTasks = tasks.filter((item) => {

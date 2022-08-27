@@ -35,6 +35,7 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     return [];
   });
 
+  //Função responsável por criar uma nova tarefa, ela recebe como parâmetro as informações da tarefa
   function addNewTask(task: ITaskProps) {
     const newTask = produce(tasks, (draft) => {
       draft.push(task);
@@ -43,6 +44,7 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     setTasks(newTask);
   }
 
+  //Função responsável por marcar ou desmarcar tarefa como concluída, ela recebe como parâmetro o id da tarefa que terá seu status alterado, a função verificará se a tarefa existe, após irá verificar se tarefa está concluída ou pendente e irá trocar seu status para o contrário do que está
   function completeTask(taskId: number) {
     const newTodo = produce(tasks, (draft) => {
       const taskExistsInTodo = tasks.findIndex((item) => item.id === taskId);
@@ -63,6 +65,7 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     setTasks(newTodo);
   }
 
+  //Função responsável por editar a descrição de uma tarefa, ela recebe como parâmetro o id da tarefa que deverá ser editada e a nova descrição, a função verificará se a tarefa existe e após irá atualizar a descrição
   function editTask(taskId: number, text: string) {
     const newTodo = produce(tasks, (draft) => {
       const taskExistsInTodo = tasks.findIndex((item) => item.id === taskId);
@@ -75,6 +78,7 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     setTasks(newTodo);
   }
 
+  //Função responsável por excluir uma tarefa, ela recebe como parâmetro o id da tarefa que será excluída, a função verificará se a tarefa existe e após irá excluir.
   function removeTask(taskId: number) {
     const newTodo = produce(tasks, (draft) => {
       const taskExistsInTodo = tasks.findIndex((item) => item.id === taskId);
@@ -91,11 +95,13 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     setTasks(newTodo);
   }
 
+  //Função responsável por zerar o todo, todas as informações serão zeradas.
   function cleanTodo() {
     setTasksCompleteCount(0);
     setTasks([]);
   }
 
+  //Função responsável por amarzenar as informações no localStorage, função será executada sempre que ocorrer alteração em alguma tarefa
   useEffect(() => {
     localStorage.setItem(TODO_LIST_TASKS_STORAGE_KEY, JSON.stringify(tasks));
     localStorage.setItem(
