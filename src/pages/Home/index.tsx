@@ -11,10 +11,20 @@ import {
   TasksContainer,
   EmptyContainer,
   ButtonContainer,
+  SelectContainer,
+  SelectText,
 } from "./style";
 
+interface ITaskProps {
+  id: number;
+  text: string;
+  isComplete: boolean;
+}
+
 export function Home() {
+  const [selectTasks, setSelectTasks] = useState<ITaskProps[]>([]);
   const [newTaskText, setNewTaskText] = useState("");
+  const [isActiveSelect, setIsActiveSelect] = useState("all");
   const { addNewTask, tasks, tasksCompleteCount, cleanTodo } = useTodo();
 
   function handleCreateNewTask() {
@@ -27,6 +37,30 @@ export function Home() {
     addNewTask(task);
     setNewTaskText("");
   }
+
+  useEffect(() => {
+    if (isActiveSelect === "pending") {
+      const filteredTasks = tasks.filter((item) => {
+        return item.isComplete === false;
+      });
+
+      setSelectTasks(filteredTasks);
+
+      return;
+    }
+
+    if (isActiveSelect === "completed") {
+      const filteredTasks = tasks.filter((item) => {
+        return item.isComplete === true;
+      });
+
+      setSelectTasks(filteredTasks);
+
+      return;
+    }
+
+    setSelectTasks(tasks);
+  }, [isActiveSelect, tasksCompleteCount, addNewTask]);
 
   return (
     <HomeContainer>
@@ -63,16 +97,49 @@ export function Home() {
           </div>
         </CountTaskContainer>
 
+        {tasks.length !== 0 && (
+          <SelectContainer>
+            <SelectText
+              isActive={isActiveSelect === "all" ? true : false}
+              onClick={() => setIsActiveSelect("all")}
+            >
+              Todas /
+            </SelectText>
+            <SelectText
+              isActive={isActiveSelect === "pending" ? true : false}
+              onClick={() => setIsActiveSelect("pending")}
+            >
+              Pendentes /
+            </SelectText>
+            <SelectText
+              isActive={isActiveSelect === "completed" ? true : false}
+              onClick={() => setIsActiveSelect("completed")}
+            >
+              Concluídas
+            </SelectText>
+          </SelectContainer>
+        )}
+
         <TasksContainer>
-          {tasks.length === 0 ? (
+          {selectTasks.length === 0 ? (
             <EmptyContainer>
               <ClipboardText />
-              <p>Você ainda não tem tarefas cadastradas</p>
-              <p>Crie tarefas e organize seus itens a fazer</p>
+              {isActiveSelect === "pending" && (
+                <p>Você não tem tarefas pendentes</p>
+              )}
+              {isActiveSelect === "completed" && (
+                <p>Você não tem tarefas concluídas</p>
+              )}
+              {isActiveSelect === "all" && (
+                <>
+                  <p>Você não tem tarefas criadas</p>
+                  <p>Crie tarefas e organize seus itens a fazer</p>
+                </>
+              )}
             </EmptyContainer>
           ) : (
             <>
-              {tasks.map((item) => {
+              {selectTasks.map((item) => {
                 return (
                   <Task
                     key={item.id}
@@ -85,7 +152,7 @@ export function Home() {
             </>
           )}
         </TasksContainer>
-        {tasks.length > 0 && (
+        {selectTasks.length !== 0 && (
           <ButtonContainer>
             <button onClick={cleanTodo}>Limpar Todo</button>
           </ButtonContainer>

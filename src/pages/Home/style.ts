@@ -1,4 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+interface ISelectTextProps {
+  isActive: boolean;
+}
 
 export const HomeContainer = styled.main`
   max-width: 100vw;
@@ -73,10 +77,33 @@ export const FormContainer = styled.section`
   }
 `;
 
+export const SelectContainer = styled.section`
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.25rem;
+`;
+
+export const SelectText = styled.p<ISelectTextProps>`
+  cursor: pointer;
+  color: ${(props) => props.theme["gray-300"]};
+
+  :hover {
+    opacity: 0.7;
+  }
+
+  ${(props) =>
+    props.isActive &&
+    css`
+      font-weight: 700;
+      color: ${(props) => props.theme["gray-100"]};
+    `}
+`;
+
 export const EmptyContainer = styled.section`
   border-radius: 8px;
   border-top: 1px solid ${(props) => props.theme["gray-400"]};
   text-align: center;
+  margin-top: 1.5rem;
 
   svg {
     font-size: 3.5rem;
@@ -100,7 +127,7 @@ export const CountTaskContainer = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.12rem;
+  gap: 0.125rem;
 
   div {
     display: flex;
@@ -132,7 +159,7 @@ export const CountTaskContainer = styled.section`
 `;
 
 export const TasksContainer = styled.section`
-  margin: 1.5rem 0;
+  margin: 0.5rem 0;
 `;
 
 export const ButtonContainer = styled.section`
