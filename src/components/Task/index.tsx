@@ -1,29 +1,21 @@
-import { Check, Circle, Pencil, Trash, X } from "phosphor-react";
-import { TaskContainer, ContainerInput } from "./style";
-import { useTodo } from "../../hooks/useTodo";
 import { useState } from "react";
+import { Check, Circle, Pencil, Trash, X } from "phosphor-react";
 
-interface ITaskProps {
-  text: string;
-  id: number;
-  isComplete: boolean;
-}
+import { useTodo } from "../../hooks/useTodo";
+import { ITaskProps } from "../../interfaces";
+
+import { TaskContainer, ContainerInput } from "./style";
 
 export function Task({ id, text, isComplete }: ITaskProps) {
-  const { handleRemoveTask, handleTaskComplete, handleEditTask } = useTodo();
+  const { removeTask, completeTask, editTask } = useTodo();
   const [editText, setEditText] = useState(text);
   const [isEdit, setIsEdit] = useState(false);
-
-  function editTask() {
-    handleEditTask(id, editText);
-    setIsEdit(false);
-  }
 
   return (
     <>
       {!isEdit ? (
         <TaskContainer>
-          <button onClick={() => handleTaskComplete(id)}>
+          <button onClick={() => completeTask(id)}>
             {isComplete ? (
               <div>
                 <Check size={18} />
@@ -40,7 +32,7 @@ export function Task({ id, text, isComplete }: ITaskProps) {
               <Pencil size={18} />
             </button>
           )}
-          <button onClick={() => handleRemoveTask(id)}>
+          <button onClick={() => removeTask(id)}>
             <Trash size={18} />
           </button>
         </TaskContainer>
@@ -61,7 +53,13 @@ export function Task({ id, text, isComplete }: ITaskProps) {
           >
             <X size={18} />
           </button>
-          <button onClick={editTask} disabled={!editText}>
+          <button
+            onClick={() => {
+              editTask(id, editText);
+              setIsEdit(false);
+            }}
+            disabled={!editText}
+          >
             <Check size={18} />
           </button>
         </ContainerInput>

@@ -1,25 +1,11 @@
+import { createContext, useState, useEffect } from "react";
 import produce from "immer";
-import { createContext, ReactNode, useState, useEffect } from "react";
 
-interface ITaskProps {
-  id: number;
-  text: string;
-  isComplete: boolean;
-}
-
-interface ITodoContextType {
-  tasks: ITaskProps[];
-  tasksCompleteCount: number;
-  addNewTask: (task: ITaskProps) => void;
-  handleRemoveTask: (taskId: number) => void;
-  handleTaskComplete: (taskId: number) => void;
-  handleEditTask: (taskId: number, text: string) => void;
-  cleanTodo: () => void;
-}
-
-interface ITodoContextProviderProps {
-  children: ReactNode;
-}
+import {
+  ITaskProps,
+  ITodoContextProviderProps,
+  ITodoContextType,
+} from "../interfaces";
 
 const TODO_LIST_TASKS_STORAGE_KEY = "todoList:tasks:1.0.0";
 const TODO_LIST_COMPLETE_TASKS_COUNT_STORAGE_KEY =
@@ -57,7 +43,7 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     setTasks(newTask);
   }
 
-  function handleTaskComplete(taskId: number) {
+  function completeTask(taskId: number) {
     const newTodo = produce(tasks, (draft) => {
       const taskExistsInTodo = tasks.findIndex((item) => item.id === taskId);
 
@@ -77,7 +63,7 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     setTasks(newTodo);
   }
 
-  function handleEditTask(taskId: number, text: string) {
+  function editTask(taskId: number, text: string) {
     const newTodo = produce(tasks, (draft) => {
       const taskExistsInTodo = tasks.findIndex((item) => item.id === taskId);
 
@@ -89,7 +75,7 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     setTasks(newTodo);
   }
 
-  function handleRemoveTask(taskId: number) {
+  function removeTask(taskId: number) {
     const newTodo = produce(tasks, (draft) => {
       const taskExistsInTodo = tasks.findIndex((item) => item.id === taskId);
 
@@ -124,9 +110,9 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
         tasks,
         tasksCompleteCount,
         addNewTask,
-        handleTaskComplete,
-        handleRemoveTask,
-        handleEditTask,
+        completeTask,
+        removeTask,
+        editTask,
         cleanTodo,
       }}
     >
