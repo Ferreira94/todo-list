@@ -63,13 +63,8 @@ export const ContainerInput = styled.div`
   margin-bottom: 0.5rem;
   gap: 0.5rem;
 
-  > svg {
-    color: ${(props) => props.theme["blue-500"]};
-  }
-
   input {
-    flex: 1;
-    max-width: 100%;
+    width: 100%;
     border-radius: 8px;
     border: 0;
     background-color: ${(props) => props.theme["gray-500"]};
@@ -87,6 +82,10 @@ export const ContainerInput = styled.div`
 
     :hover {
       color: ${(props) => props.theme["red-500"]};
+    }
+
+    :nth-child(1) {
+      color: ${(props) => props.theme["blue-500"]};
     }
 
     :last-child {

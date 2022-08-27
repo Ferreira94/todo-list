@@ -46,7 +46,9 @@ export function Task({ id, text, isComplete }: ITaskProps) {
         </TaskContainer>
       ) : (
         <ContainerInput>
-          <Pencil size={18} />
+          <button>
+            <Pencil size={18} />
+          </button>
           <input
             value={editText}
             onChange={(event) => setEditText(event.target.value)}
