@@ -44,7 +44,7 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     setTasks(newTask);
   }
 
-  //Função responsável por marcar ou desmarcar tarefa como concluída, ela recebe como parâmetro o id da tarefa que terá seu status alterado, a função verificará se a tarefa existe, após irá verificar se tarefa está concluída ou pendente e irá trocar seu status para o contrário do que está
+  //Função responsável por marcar ou desmarcar tarefa como concluída, ela recebe como parâmetro o id da tarefa que terá seu status alterado, a função verificará se a tarefa existe, após irá verificar se tarefa está concluída ou pendente e irá trocar seu status para o contrário do que está, caso o status seja alterado para concluída irá acrescentar 1 ao contador de tarefas concluídas e caso for alterado para pendente irá diminuir 1 do contador de tarefas concluídas
   function completeTask(taskId: number) {
     const newTodo = produce(tasks, (draft) => {
       const taskExistsInTodo = tasks.findIndex((item) => item.id === taskId);
@@ -78,7 +78,7 @@ export function TodoContextProvider({ children }: ITodoContextProviderProps) {
     setTasks(newTodo);
   }
 
-  //Função responsável por excluir uma tarefa, ela recebe como parâmetro o id da tarefa que será excluída, a função verificará se a tarefa existe e após irá excluir
+  //Função responsável por excluir uma tarefa, ela recebe como parâmetro o id da tarefa que será excluída, a função verificará se a tarefa existe e após irá excluir, após a exclusão a função irá verificar se a tarefa estava concluída, caso estivesse será diminuído 1 do contador de tarefas concluídas.
   function removeTask(taskId: number) {
     const newTodo = produce(tasks, (draft) => {
       const taskExistsInTodo = tasks.findIndex((item) => item.id === taskId);
