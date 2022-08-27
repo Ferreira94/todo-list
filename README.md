@@ -20,10 +20,6 @@ Este projeto foi feito utilizando as seguintes tecnologias:
 - [TypeScript](https://www.typescriptlang.org/)
 - [Styled Components](https://styled-components.com/)
 
-## 💻 Funções
-
-Este projeto foi feito utilizando as seguintes tecnologias:
-
 ## 🛠️ Executando
 
 ```bash
