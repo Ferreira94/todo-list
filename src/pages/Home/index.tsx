@@ -10,11 +10,12 @@ import {
   HomeContainer,
   TasksContainer,
   EmptyContainer,
+  ButtonContainer,
 } from "./style";
 
 export function Home() {
   const [newTaskText, setNewTaskText] = useState("");
-  const { addNewTask, tasks, tasksCompleteCount } = useTodo();
+  const { addNewTask, tasks, tasksCompleteCount, cleanTodo } = useTodo();
 
   function handleCreateNewTask() {
     const task = {
@@ -26,10 +27,6 @@ export function Home() {
     addNewTask(task);
     setNewTaskText("");
   }
-
-  useEffect(() => {
-    console.log(tasks, tasksCompleteCount);
-  }, []);
 
   return (
     <HomeContainer>
@@ -67,7 +64,7 @@ export function Home() {
         </CountTaskContainer>
 
         <TasksContainer>
-          {tasks.length < 0 ? (
+          {tasks.length === 0 ? (
             <EmptyContainer>
               <ClipboardText />
               <p>Você ainda não tem tarefas cadastradas</p>
@@ -88,6 +85,11 @@ export function Home() {
             </>
           )}
         </TasksContainer>
+        {tasks.length > 0 && (
+          <ButtonContainer>
+            <button onClick={cleanTodo}>Limpar Todo</button>
+          </ButtonContainer>
+        )}
       </main>
     </HomeContainer>
   );
